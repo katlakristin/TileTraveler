@@ -3,7 +3,7 @@ NORTH = 'n'
 EAST = 'e'
 SOUTH = 's'
 WEST = 'w'
-COIN = [(1,2), (2,2), (2,3), (3,2)]
+LEVERS = [(1,2), (2,2), (2,3), (3,2)]
 
 def move(direction, col, row):
     ''' Returns updated col, row given the direction '''
@@ -72,13 +72,46 @@ def play_one_move(col, row, valid_directions):
         victory = is_victory(col, row)
     return victory, col, row
 
+def lever(col, row, number_of_coins):
+    if lever_room(col, row):
+        if pulled_lever():
+            number_of_coins += 1
+            print("You received 1 coin, your total is now {}.".format(number_of_coins))
+    return number_of_coins
+
+def lever_room(col, row):
+    for lever in LEVERS:
+        if lever[0] == col and lever[1] == row:
+            return True
+    return False
+
+def pulled_lever():
+    pull_lever = input("Pull a lever (y/n): ").lower()
+    if pull_lever == "y":
+        return True
+    return False
+
+def same_room(col, row, last_col, last_row):
+    if last_col == col and last_row == row:
+        return True
+    else:
+
+        return False
+
 # The main program starts here
 victory = False
 row = 1
 col = 1
+coins = 0
+last_col = 0
+last_row = 0
 
 while not victory:
+    if not same_room(col, row, last_col, last_row):
+        coins = lever(col, row, coins)
+        last_col = col
+        last_row = row
     valid_directions = find_directions(col, row)
     print_directions(valid_directions)
     victory, col, row = play_one_move(col, row, valid_directions)
-print("Victory!")
+print("Victory! Total coins {}.".format(coins))
