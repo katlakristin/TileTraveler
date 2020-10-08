@@ -65,6 +65,7 @@ def new_col(direction, col):
 
 def valid_direction(direction,line,col):
     '''This function finds out if the direction that was entered is valid for the current position'''
+    valid = True
     if col == 1 and line == 1 and direction != "n":
         valid = False
         return valid
@@ -72,7 +73,6 @@ def valid_direction(direction,line,col):
         if direction != "n" and direction != "e" and direction != "s":
             valid = False
         return valid
-    #eftir að klára fyrir rest
     if col == 1 and line == 3:
         result = "You can travel: (E)ast or (S)outh."
         return result
@@ -110,12 +110,12 @@ while not win:
     # entered is valid for the current position
     valid =valid_direction(direction,line,col)
     # If the direction was valid, we move tiles
-    if valid:
+    if valid == True:
         line = int(new_line(direction, line))
         col = int(new_col(direction,col))
         print(col)
         print(line)
-    else:
+    elif valid == False:
         print("Not a valid direction!")
     # What happens when you get to the victory location
     if line == 1 and col == 3:
