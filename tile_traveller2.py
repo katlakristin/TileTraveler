@@ -98,20 +98,34 @@ def same_room(col, row, last_col, last_row):
 
         return False
 
-# The main program starts here
-victory = False
-row = 1
-col = 1
-coins = 0
-last_col = 0
-last_row = 0
+def keep_playing():
+    continue_playing = input("Play again (y/n): ")
+    if continue_playing == "y":
+        return True
+    else:
+        return False
 
-while not victory:
-    if not same_room(col, row, last_col, last_row):
-        coins = lever(col, row, coins)
-        last_col = col
-        last_row = row
-    valid_directions = find_directions(col, row)
-    print_directions(valid_directions)
-    victory, col, row = play_one_move(col, row, valid_directions)
-print("Victory! Total coins {}.".format(coins))
+# The main program starts here
+def main():
+    victory = False
+    row = 1
+    col = 1
+    coins = 0
+    last_col = 0
+    last_row = 0
+
+
+    while not victory:
+        if not same_room(col, row, last_col, last_row):
+            coins = lever(col, row, coins)
+            last_col = col
+            last_row = row
+        valid_directions = find_directions(col, row)
+        print_directions(valid_directions)
+        victory, col, row = play_one_move(col, row, valid_directions)
+    print("Victory! Total coins {}.".format(coins))
+    continue_playing = keep_playing()
+    if continue_playing:
+        main()
+
+main()
